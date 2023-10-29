@@ -10,6 +10,7 @@ class BaseConfig:
 
 class DevelopmentConfig(BaseConfig):
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=5)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=1)
 
 
 environment = {"development": DevelopmentConfig}
