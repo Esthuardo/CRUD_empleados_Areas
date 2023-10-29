@@ -11,7 +11,7 @@ class EmployeesController:
         self.schema = EmployeesResponseSchema
 
     def fetch_all(self, email=None, name=None):
-        try:  # Obtener el parámetro de consulta "per_page" (por defecto, 10)
+        try:
             query = self.model.query.order_by("id")
 
             if email:
