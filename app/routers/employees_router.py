@@ -3,7 +3,7 @@ from flask import request
 from flask_restx import Resource
 from app.controllers.employees_controller import EmployeesController
 from app.schemas.employees_schema import EmployeesRequestSchema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 employee_ns = api.namespace(
     name="Empleados", description="Rutas del modulo Empleados", path="/empleados"
@@ -44,3 +44,13 @@ class EmployeeById(Resource):
     def delete(self, id):
         """Eliminar un empleado por su ID"""
         return controller.remove(id)
+
+
+@employee_ns.route("/profile/me")
+@employee_ns.doc(security="Bearer")
+class UserProfile(Resource):
+    @jwt_required()
+    def get(self):
+        """Obtener los datos del usuario conectado"""
+        identity = get_jwt_identity()
+        return controller.profile_me(identity)
