@@ -24,3 +24,8 @@ class AuthRequestSchema:
             help="Ex: Bearer  {refresn_token}",
         )
         return parser
+
+    def reset(self):
+        return self.ns.model(
+            "Auth Reset Password", {"email": fields.String(requires=True)}
+        )

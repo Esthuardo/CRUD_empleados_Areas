@@ -28,3 +28,11 @@ class TokenRefresh(Resource):
         """Obtener un nuevo access_token si este a vencido"""
         identity = get_jwt_identity()
         return controller.refresh_token(identity)
+
+
+@auth_ns.route("/password/reset")
+class PasswordReset(Resource):
+    @auth_ns.expect(schema_request.reset(), validate=True)
+    def post(self):
+        """Generar nueva contraseña de usuario"""
+        return controller.password_reset(request.json)
