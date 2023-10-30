@@ -16,7 +16,13 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=5)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=1)
-    MAIL_DEBUG = getenv("MAIL_DEBUG")
+    MAIL_DEBUG = True
 
 
-environment = {"development": DevelopmentConfig}
+class ProductionConfig(BaseConfig):
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=5)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=3)
+    MAIL_DEBUG = False
+
+
+environment = {"development": DevelopmentConfig, "production": ProductionConfig}
