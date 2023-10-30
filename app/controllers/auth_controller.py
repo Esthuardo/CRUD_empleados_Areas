@@ -3,7 +3,7 @@ from app.models.employee_model import EmployeeModel
 from http import HTTPStatus
 from flask_jwt_extended import create_access_token, create_refresh_token
 from secrets import token_hex
-from flask_mail import Message
+from app.utils.mailing import Mailing
 from os import getenv
 
 
@@ -11,6 +11,7 @@ class AuthController:
     def __init__(self):
         self.db = db
         self.model = EmployeeModel
+        self.mailing = Mailing()
 
     def sign_in(self, body):
         try:
@@ -58,13 +59,7 @@ class AuthController:
                 record.hash_password()
                 self.db.session.add(record)
                 self.db.session.commit()
-                message = Message(
-                    subject=f"Reinicio de contraseña - {email}",
-                    sender=("Flask - Tarea ", getenv("MAIL_USERNAME")),
-                    recipients=[email],
-                    body=f"Esta es tu nueva contraseña: {new_password}",
-                )
-                mail.send(message)
+                self.mailing.email_reset_password(email, record.name, new_password)
                 return {
                     "message": "Se envio un correo con la nueva contraseña",
                 }, HTTPStatus.OK
