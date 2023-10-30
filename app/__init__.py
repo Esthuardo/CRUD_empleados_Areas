@@ -7,15 +7,15 @@ from app.config import environment
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 
-app = Flask(__name__)
+application = Flask(__name__)
 FLASK_ENV = getenv("FLASK_ENV")
 ENVIRONMENT = environment[FLASK_ENV]
-app.config.from_object(ENVIRONMENT)
+application.config.from_object(ENVIRONMENT)
 
 authorization = {"Bearer": {"type": "apiKey", "in": "header", "name": "Authorization"}}
 
 api = Api(
-    app,
+    application,
     title="Empleados Api",
     version="0.1",
     description="Tarea CRUD de empleados",
@@ -23,10 +23,10 @@ api = Api(
     authorizations=authorization,
 )
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(application)
 
-migrate = Migrate(app, db)
+migrate = Migrate(application, db)
 
-jwt = JWTManager(app)
+jwt = JWTManager(application)
 
-mail = Mail(app)
+mail = Mail(application)
