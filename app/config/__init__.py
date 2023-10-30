@@ -23,6 +23,7 @@ class ProductionConfig(BaseConfig):
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=5)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=3)
     MAIL_DEBUG = False
+    PROPAGATE_EXCEPTIONS = True
 
 
 environment = {"development": DevelopmentConfig, "production": ProductionConfig}
